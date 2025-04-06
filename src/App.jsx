@@ -10,15 +10,17 @@ import {
 import img from "./assets/images.png";
 import RecipeList from './Components/RecipeList';
 import Home from './Pages/Home';
-import { FaMicrophone } from "react-icons/fa";
+
 import AiSuggestions from './Pages/AiSuggestion';
 import About from './Pages/About';
 import Contact from './Pages/Contact';
+import { FaMicrophone, FaBars, FaTimes } from "react-icons/fa";
 import Footer from './Components/Footer';
 
 // ====================== NAVBAR =========================
 const Navbar = ({ inputText, setInputText, setSearchQuery, onVoiceSearch }) => {
   const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleSearchClick = () => {
     setSearchQuery(inputText);
@@ -26,50 +28,63 @@ const Navbar = ({ inputText, setInputText, setSearchQuery, onVoiceSearch }) => {
   };
 
   return (
+    
     <nav className="bg-gray-100 shadow-md p-4">
-      <div className="flex items-center justify-between max-w-7xl mx-auto">
-        {/* Logo */}
-        <div className="w-16 h-16">
-          <img className="rounded-full" src={img} alt="logo" />
-        </div>
-
-        {/* Search Bar */}
-        <div className="flex items-center w-full max-w-xl bg-white border border-gray-300 rounded-full shadow-sm overflow-hidden focus-within:ring-2 focus-within:ring-emerald-400">
-          <input
-            className="flex-grow px-5 py-2 text-gray-700 focus:outline-none rounded-l-full"
-            type="text"
-            placeholder="Search for recipes..."
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
-          />
-          <button
-            onClick={onVoiceSearch}
-            className="px-4 text-gray-500 hover:text-emerald-600 transition"
-            title="Voice Search"
-          >
-            <FaMicrophone size={18} />
-          </button>
-          <button
-            onClick={handleSearchClick}
-            className="bg-emerald-500 hover:bg-emerald-600 text-white font-medium px-6 py-2 rounded-r-full transition"
-          >
-            Search
-          </button>
-        </div>
-
-        {/* Navbar Links */}
-        <ul className="flex space-x-8 text-lg font-medium">
-          <li><Link className="hover:text-gray-600" to="/">Home</Link></li>
-          <li><Link className="hover:text-gray-600" to="/recipes">Recipes</Link></li>
-          <li><Link className="hover:text-gray-600" to="/ai-suggestions">AI Suggestions</Link></li>
-          <li><Link className="hover:text-gray-600" to="/about">About</Link></li>
-          <li><Link className="hover:text-gray-600" to="/contact">Contact</Link></li>
-        </ul>
+    <div className="flex items-center justify-between max-w-7xl mx-auto">
+      
+      {/* Logo */}
+      <div className="w-16 h-16">
+        <img className="rounded-full" src={img} alt="logo" />
       </div>
-    </nav>
+
+      {/* Desktop Search */}
+      <div className="hidden md:flex items-center w-full max-w-xl bg-white border border-gray-300 rounded-full shadow-sm overflow-hidden focus-within:ring-2 focus-within:ring-emerald-400">
+        <input
+          className="flex-grow px-5 py-2 text-gray-700 focus:outline-none rounded-l-full"
+          type="text"
+          placeholder="Search for recipes..."
+          value={inputText}
+          onChange={(e) => setInputText(e.target.value)}
+        />
+        <button onClick={onVoiceSearch} className="px-4 text-gray-500 hover:text-emerald-600 transition">
+          <FaMicrophone size={18} />
+        </button>
+        <button onClick={handleSearchClick} className="bg-emerald-500 hover:bg-emerald-600 text-white font-medium px-6 py-2 rounded-r-full transition">
+          Search
+        </button>
+      </div>
+
+      {/* Mobile Menu Icon */}
+      <div className="md:hidden">
+        <button onClick={() => setIsOpen(!isOpen)}>
+          {isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+        </button>
+      </div>
+
+      {/* Desktop Links */}
+      <ul className="hidden md:flex space-x-8 text-lg font-medium">
+        <li><Link className="hover:text-gray-600" to="/">Home</Link></li>
+        <li><Link className="hover:text-gray-600" to="/recipes">Recipes</Link></li>
+        <li><Link className="hover:text-gray-600" to="/ai-suggestions">AI Suggestions</Link></li>
+        <li><Link className="hover:text-gray-600" to="/about">About</Link></li>
+        <li><Link className="hover:text-gray-600" to="/contact">Contact</Link></li>
+      </ul>
+    </div>
+
+    {/* Mobile Links */}
+    {isOpen && (
+      <ul className="md:hidden mt-4 space-y-4 text-center text-lg font-medium">
+        <li><Link onClick={() => setIsOpen(false)} to="/">Home</Link></li>
+        <li><Link onClick={() => setIsOpen(false)} to="/recipes">Recipes</Link></li>
+        <li><Link onClick={() => setIsOpen(false)} to="/ai-suggestions">AI Suggestions</Link></li>
+        <li><Link onClick={() => setIsOpen(false)} to="/about">About</Link></li>
+        <li><Link onClick={() => setIsOpen(false)} to="/contact">Contact</Link></li>
+      </ul>
+    )}
+  </nav>
   );
 };
-<Footer/>
+
 // ==================== OTHER ROUTE COMPONENTS ====================
 const Recipes = ({ searchQuery }) => (
   <>
@@ -148,6 +163,7 @@ const App = () => {
         <Route path="/contact" element={<Contact/>} />
       </Routes>
     </Router>
+    
   );
 };
 
