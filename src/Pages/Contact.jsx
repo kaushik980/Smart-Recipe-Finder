@@ -88,14 +88,14 @@ const Contact = () => {
           <FaGithub className="hover:text-emerald-400" />
         </a>
         <a
-          href="https://instagram.com/ama.nimapada"
+          href="https://instagram.com/i_am_kaushik_9"
           target="_blank"
           rel="noopener noreferrer"
         >
           <FaInstagram className="hover:text-emerald-400" />
         </a>
         <a
-          href="https://www.youtube.com/@YourChannelName"
+          href="https://www.youtube.com/"
           target="_blank"
           rel="noopener noreferrer"
         >
